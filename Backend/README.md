@@ -1,12 +1,17 @@
-# User Registration Endpoint
+# User Endpoints Documentation
 
-## Endpoint
+## 1. User Registration
+
+### Endpoint
+
 `POST /users/register`
 
-## Description
+### Description
+
 This endpoint allows a new user to register by providing their details. It validates the input data, hashes the password, and creates a new user in the database. Upon successful registration, a JWT token is generated and returned.
 
-## Request Body
+### Request Body
+
 The request body must be in JSON format and include the following fields:
 
 - `fullname`: An object containing the user's full name.
@@ -15,47 +20,24 @@ The request body must be in JSON format and include the following fields:
 - `email`: A string representing the user's email address (required, must be a valid email format, minimum length: 5 characters).
 - `password`: A string representing the user's password (required, minimum length: 6 characters).
 
-### Example Request
+#### Example Request
+
+```json
 {
-  "fullname": {  # User Endpoints Documentation
-  
-  ## 1. User Registration
-  
-  ### Endpoint
-  `POST /users/register`
-  
-  ### Description
-  This endpoint allows a new user to register by providing their details. It validates the input data, hashes the password, and creates a new user in the database. Upon successful registration, a JWT token is generated and returned.
-  
-  ### Request Body
-  The request body must be in JSON format and include the following fields:
-  
-  - `fullname`: An object containing the user's full name.
-    - `firstname`: A string representing the user's first name (required, minimum length: 3 characters).
-    - `lastname`: A string representing the user's last name (required).
-  - `email`: A string representing the user's email address (required, must be a valid email format, minimum length: 5 characters).
-  - `password`: A string representing the user's password (required, minimum length: 6 characters).
-  
-  #### Example Request
-  ```json
-  {
-    "fullname": {
-      "firstname": "John",
-      "lastname": "Doe"
-    },
-    "email": "john.doe@example.com",
-    "password": "securepassword"
-  }
+  "fullname": {
     "firstname": "John",
     "lastname": "Doe"
   },
   "email": "john.doe@example.com",
   "password": "securepassword"
 }
+```
 
-## Responses
+### Responses
+
 - **201 Created**: Returned when the user is successfully registered. The response includes the generated JWT token and user details.
-  - Example Response:
+
+  ```json
   {
     "token": "your_jwt_token",
     "user": {
@@ -66,9 +48,11 @@ The request body must be in JSON format and include the following fields:
       "email": "john.doe@example.com"
     }
   }
+  ```
 
-- **400 Bad Request**: Returned when the input data is invalid or missing required fields. The response includes an array of error messages.
-  - Example Response:
+- **400 Bad Request**: Returned when the input data is invalid or missing required fields.
+
+  ```json
   {
     "errors": [
       {
@@ -78,65 +62,111 @@ The request body must be in JSON format and include the following fields:
       }
     ]
   }
+  ```
 
+## 2. User Login
 
+### Endpoint
 
-  ## User Login Endpoint
+`POST /users/login`
 
-  ### Endpoint
-  `POST /users/login`
+### Description
 
-  ### Description
-  This endpoint allows an existing user to log in by providing their email and password. Upon successful authentication, a JWT token is generated and returned.
+This endpoint allows an existing user to log in by providing their email and password. Upon successful authentication, a JWT token is generated and returned.
 
-  ### Request Body
-  The request body must be in JSON format and include the following fields:
+### Request Body
 
-  - `email`: A string representing the user's email address (required, must be a valid email format).
-  - `password`: A string representing the user's password (required).
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "securepassword"
+}
+```
 
-  #### Example Request
+### Responses
+
+- **200 OK**: Successful login
+
   ```json
   {
-    "email": "john.doe@example.com",
-    "password": "securepassword"
+    "token": "your_jwt_token",
+    "user": {
+      "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+      },
+      "email": "john.doe@example.com"
+    }
   }
   ```
 
-  ### Responses
-  - **200 OK**: Returned when the user is successfully authenticated. The response includes the generated JWT token and user details.
-    - Example Response:
-    ```json
-    {
-      "token": "your_jwt_token",
-      "user": {
-        "fullname": {
-          "firstname": "John",
-          "lastname": "Doe"
-        },
-        "email": "john.doe@example.com"
+- **401 Unauthorized**: Invalid email or password
+
+  ```json
+  {
+    "error": "Invalid email or password"
+  }
+  ```
+
+- **400 Bad Request**: Missing fields or invalid format
+
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "Email is required",
+        "param": "email",
+        "location": "body"
       }
-    }
-    ```
+    ]
+  }
+  ```
 
-  - **401 Unauthorized**: Returned when the email or password is incorrect.
-    - Example Response:
-    ```json
-    {
-      "error": "Invalid email or password"
-    }
-    ```
+## 3. Get User Profile
 
-  - **400 Bad Request**: Returned when the input data is invalid or missing required fields.
-    - Example Response:
-    ```json
-    {
-      "errors": [
-        {
-          "msg": "Email is required",
-          "param": "email",
-          "location": "body"
-        }
-      ]
-    }
-    ```
+### Endpoint
+
+`GET /users/profile`
+
+### Description
+
+This endpoint allows an authenticated user to fetch their profile details, such as username, email, and other relevant information.
+
+### Responses
+
+- **200 OK**
+
+  ```json
+  {
+    "id": 1,
+    "username": "johndoe",
+    "email": "johndoe@example.com",
+    "first_name": "John",
+    "last_name": "Doe"
+  }
+  ```
+
+- **401 Unauthorized**: The user is not authenticated.
+
+## 4. Logout User
+
+### Endpoint
+
+`GET /users/logout`
+
+### Description
+
+This endpoint invalidates the user's session or token, effectively logging them out of the system.
+
+### Responses
+
+- **200 OK**
+
+  ```json
+  {
+    "message": "Successfully logged out."
+  }
+  ```
+
+- **401 Unauthorized**: The user is not authenticated.
+
