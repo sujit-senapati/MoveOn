@@ -170,3 +170,27 @@ This endpoint invalidates the user's session or token, effectively logging them 
 
 - **401 Unauthorized**: The user is not authenticated.
 
+
+
+
+"""
+Endpoint: /captains/register
+Method: POST
+
+Registers a new captain in the system.
+
+Request Body:
+- `name` (str): The name of the captain. Required.
+- `email` (str): The email address of the captain. Must be unique. Required.
+- `password` (str): The password for the captain's account. Required.
+- `phone` (str, optional): The phone number of the captain. Optional.
+- `license_number` (str, optional): The captain's license number. Optional.
+
+Response:
+- 201 Created: If the captain is successfully registered.
+  - `message` (str): Success message.
+  - `captain_id` (int): The unique ID of the newly registered captain.
+- 400 Bad Request: If the request body is invalid or missing required fields.
+  - `error` (str): Description of the error.
+- 409 Conflict: If the email is already in use.
+  - `error` (str): Description of the conflict.
