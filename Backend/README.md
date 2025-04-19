@@ -217,14 +217,6 @@ This endpoint allows a new captain to register by providing their details. It va
 
 ### Endpoint
 
-`POST /users/login`
-
-### Description
-
-This endpoint allows an existing captain to log in by providing their email and password. Upon successful authentication, a JWT token is generated and returned.
-
-### Endpoint
-
 `POST /captains/login`
 
 ### Description
