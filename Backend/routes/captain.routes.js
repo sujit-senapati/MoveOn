@@ -2,6 +2,7 @@ const captainController = require('../controllers/captain.controller');
 const express = require('express'); //importing express
 const router = express.Router(); //creating a new router instance
 const { body } = require('express-validator'); //importing express-validator for validation
+const authMiddleware = require('../middlewares/auth.middleware'); //importing auth middleware
 
 
 router.post('/register', [
@@ -22,6 +23,10 @@ router.post('/login', [
 ],
     captainController.loginCaptain //login captain route
 )
+
+router.get('/profile', authMiddleware.authCaptain , captainController.getCaptainProfile);
+
+router.get('/logout', authMiddleware.authCaptain, captainController.logoutCaptain); //logout captain route
 
 
 module.exports = router; //exporting the router instance

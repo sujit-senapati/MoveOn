@@ -264,16 +264,67 @@ This endpoint allows an existing captain to log in by providing their email and 
   ```
 
 - **400 Bad Request**: Missing fields or invalid format
+## 7. Get Captain Profile
+
+#### Endpoint
+
+`GET /captains/profile`
+
+#### Description
+
+Retrieve the profile information of the currently authenticated captain.
+
+#### Access
+
+Private - Requires a valid authentication token.
+
+#### Responses
+
+- **200 OK**
 
   ```json
   {
-    "errors": [
-      {
-        "msg": "Email is required",
-        "param": "email",
-        "location": "body"
-      }
-    ]
+    "id": 1,
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "captain.email@example.com",
+    "vehicleDetails": {
+      "color": "red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicletype": "sedan"
+    }
   }
   ```
 
+- **401 Unauthorized**: The captain is not authenticated.
+
+---
+
+## 8. Logout Captain
+
+#### Endpoint
+
+`POST /captains/logout`
+
+#### Description
+
+Log out the currently authenticated captain by invalidating their session or token.
+
+#### Access
+
+Private - Requires a valid authentication token.
+
+#### Responses
+
+- **200 OK**
+
+  ```json
+  {
+    "message": "Successfully logged out."
+  }
+  ```
+
+- **401 Unauthorized**: The captain is not authenticated.

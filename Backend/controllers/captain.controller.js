@@ -2,6 +2,7 @@ const { model } = require('mongoose');
 const captainModel = require('../models/captain.model'); //importing the captain model
 const captainService = require('../services/captain.service'); //importing the captain service
 const { validationResult } = require('express-validator'); //importing express-validator for validation
+const blacklistTokenModel = require('../models/blacklistToken.model');
 
 
 module.exports.registerCaptain = async (req, res, next) => { 
@@ -58,4 +59,18 @@ module.exports.loginCaptain = async (req, res, next) => {
     res.cookie('token', token); //set the token in a cookie
 
     res.status(200).json({ token, captain }); //return a 200 response with the token and captain details
+}
+
+module.exports.getCaptainProfile = async (req, res, next) => {
+    res.status(200).json({ captain: req.captain }); //return a 200 response with the captain details from the request object
+}
+
+module.exports.logoutCaptain = async (req, res, next) => {
+    const token = req.cookies.token || req.headers.authorization?.split(' ')[ 1 ]; //get the token from cookies or headers
+
+    await blacklistTokenModel.create({ token }); //create a new blacklist token in the database
+
+    res.clearCookie('token'); //clear the token from the response cookies
+
+    res.status(200).json({ message: 'Logged out successfully' }); //return a 200 response with success meassege
 }
