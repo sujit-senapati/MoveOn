@@ -1,3 +1,4 @@
+const { model } = require('mongoose');
 const captainModel = require('../models/captain.model'); //importing the captain model
 const captainService = require('../services/captain.service'); //importing the captain service
 const { validationResult } = require('express-validator'); //importing express-validator for validation
@@ -32,4 +33,29 @@ module.exports.registerCaptain = async (req, res, next) => {
     const token = captain.generateAuthToken(); //generate a JWT token for the captain using the captain model's method
     
     res.status(201).json({ token, captain }); //return a 201 response with the token and captain details
+}
+
+module.exports.loginCaptain = async (req, res, next) => {
+    const errors = validationResult(req); //validate the request body using express-validator
+    if(!errors.isEmpty()) {
+        return res.status(401).json({ errors: errors.array() }); //if there are validation errors, return a 400 response with the errors
+    }
+
+    const { email, password } = req.body; //destructure the request body to get the email and password
+
+    const captain = await captainModel.findOne({ email }).select('+password'); //find the captain in the database using the email and select password
+    if(!captain) {
+        return res.status(401).json({ message: 'Invalid email or password' }); //if the captain is not found, return a 401 response with an error message
+    }
+
+    const isMatch = await captain.comparePassword(password); //compare the provided password with the hashed password in the database using the captain model's method
+    if(!isMatch) {
+        return res.status(401).json({ message: 'Invalid email or password' }); //if the passwords do not match, return a 401 response with error message
+    }
+
+    const token = captain.generateAuthToken(); //generate a JWT token for the captain using the captain model's method
+
+    res.cookie('token', token); //set the token in a cookie
+
+    res.status(200).json({ token, captain }); //return a 200 response with the token and captain details
 }

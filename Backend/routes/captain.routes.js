@@ -16,5 +16,12 @@ router.post('/register', [
     captainController.registerCaptain //register captain route)
 )
 
+router.post('/login', [
+    body('email').isEmail().withMessage('Invalid email address'), //validate email format
+    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'), //validate password length
+],
+    captainController.loginCaptain //login captain route
+)
+
 
 module.exports = router; //exporting the router instance

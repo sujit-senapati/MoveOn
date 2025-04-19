@@ -173,24 +173,115 @@ This endpoint invalidates the user's session or token, effectively logging them 
 
 
 
-"""
-Endpoint: /captains/register
-Method: POST
+## 5. Regiter Captain
+`POST /captains/register`
+
+### Description
 
 Registers a new captain in the system.
 
-Request Body:
-- `name` (str): The name of the captain. Required.
-- `email` (str): The email address of the captain. Must be unique. Required.
-- `password` (str): The password for the captain's account. Required.
-- `phone` (str, optional): The phone number of the captain. Optional.
-- `license_number` (str, optional): The captain's license number. Optional.
+### Request Body
 
-Response:
-- 201 Created: If the captain is successfully registered.
+This endpoint allows a new captain to register by providing their details. It validates the input data, hashes the password, and creates a new captain in the database. Upon successful registration, a JWT token is generated and returned.
+
+- `fullname`: An object containing the user's full name.
+  - `firstname`: A string representing the user's first name (required, minimum length: 3 characters).
+  - `lastname`: A string representing the user's last name (required).
+- `email`: A string representing the user's email address (required, must be a valid email format, minimum length: 5 characters).
+- `password`: A string representing the user's password (required, minimum length: 6 characters).
+- `vehicleDetails`: color, plate, capacity, vehicletype.
+
+### Example Request
+
+```json
+{
+  "name": "example name",
+  "email": "john.doe@example.com",
+  "password": "securepassword",
+  "vehicle":"details of the vehicle"
+}
+```
+
+### Response: 
+
+- **201 Created**: If the captain is successfully registered.
   - `message` (str): Success message.
   - `captain_id` (int): The unique ID of the newly registered captain.
-- 400 Bad Request: If the request body is invalid or missing required fields.
+- **400 Bad Request**: If the request body is invalid or missing required fields.
   - `error` (str): Description of the error.
-- 409 Conflict: If the email is already in use.
+- **409 Conflict**: If the email is already in use.
   - `error` (str): Description of the conflict.
+
+
+  ## 6. Captain Login
+
+### Endpoint
+
+`POST /users/login`
+
+### Description
+
+This endpoint allows an existing captain to log in by providing their email and password. Upon successful authentication, a JWT token is generated and returned.
+
+### Endpoint
+
+`POST /captains/login`
+
+### Description
+
+This endpoint allows an existing captain to log in by providing their email and password. Upon successful authentication, a JWT token is generated and returned.
+
+### Request Body
+
+```json
+{
+  "email": "captain.email@example.com",
+  "password": "securepassword"
+}
+```
+
+### Responses
+
+- **200 OK**: Successful login
+
+  ```json
+  {
+    "token": "your_jwt_token",
+    "captain": {
+      "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+      },
+      "email": "captain.email@example.com",
+      "vehicleDetails": {
+        "color": "red",
+        "plate": "ABC123",
+        "capacity": 4,
+        "vehicletype": "sedan"
+      }
+    }
+  }
+  ```
+
+- **401 Unauthorized**: Invalid email or password
+
+  ```json
+  {
+    "error": "Invalid email or password"
+  }
+  ```
+
+- **400 Bad Request**: Missing fields or invalid format
+
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "Email is required",
+        "param": "email",
+        "location": "body"
+      }
+    ]
+  }
+  ```
+
