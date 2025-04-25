@@ -27,6 +27,7 @@ const UserLogin = () => {
     if(response.status === 200) {
       const data = response.data; //getting the data from the response
       setUser(data.user); //setting the user data to the user context
+      localStorage.setItem('token', data.token); //setting the token to the local storage
       navigate('/home'); //navigating to the home page after successful login
     }
 
