@@ -10,6 +10,8 @@ import UserConext, { userDataContext } from './context/UserContext'
 import UserProtectedWrapper from './pages/UserProtectedWrapper'
 import UserLogout from './pages/UserLogout'
 import CaptainHome from './pages/CaptainHome'
+import CaptainProtectedWrapper from './pages/CaptainProtectedWrapper'
+import CaptainLogout from './pages/CaptainLogout'
 
 const App = () => {
 
@@ -34,7 +36,17 @@ const App = () => {
             <UserLogout /> {/* wrapping the user logout page with user protected wrapper to protect the route */}
           </UserProtectedWrapper>
         } />
-        <Route path='/captain-home' element={<CaptainHome />} /> {/* captain home page */}
+        <Route path='/captain-home' element={
+          <CaptainProtectedWrapper>
+            <CaptainHome /> {/* wrapping the captain home page with captain protected wrapper to protect the route */}
+          </CaptainProtectedWrapper>
+        } /> {/* captain home page */}
+        <Route path='/captain/logout' 
+        element={
+          <CaptainProtectedWrapper>
+            <CaptainLogout /> {/* wrapping the user logout page with user protected wrapper to protect the route */}
+          </CaptainProtectedWrapper>
+        } />
       </Routes>
     </div>
   )
