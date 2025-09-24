@@ -1,50 +1,55 @@
 import React, {useContext, useEffect, useState} from 'react'
 import { CaptainDataContext } from '../context/CaptainContext';
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'; //importing axios to make API calls
+import axios from 'axios'; // Importing axios to make API calls
 
 const CaptainProtectedWrapper = ({
-    children //children is a prop that is passed to the component which contains the child elements of the component
+    children // children is a prop that contains the child elements of the component
 }) => {
 
-    const token = localStorage.getItem('token'); //getting the token from the local storage
-    const navigate = useNavigate(); //using useNavigate hook to navigate to different pages
-    const { captain, setCaptain } = useContext(CaptainDataContext); //using context to get and set captain data
-    const [ isLoading, setIsLoading ]= useState(true); //using state to get and set loading state
+    const token = localStorage.getItem('token'); // Get the token from local storage
+    const navigate = useNavigate(); // Hook to navigate between pages
+    const { captain, setCaptain } = useContext(CaptainDataContext); // Get and set captain data from context
+    const [ isLoading, setIsLoading ]= useState(true); // State to track loading status
 
-    useEffect(() => { //using useEffect hook to check if the captain is logged in or not
+    useEffect(() => {
+        // If no token, redirect to captain login page
         if(!token) {
-            navigate('/captain-login'); //if captain is not logged in, navigate to login page
+            navigate('/captain-login');
+            return;
         }
-    }, [ token ])
+        // Fetch captain profile only once when component mounts or token changes
+        axios.get(`${import.meta.env.VITE_BASE_URL}/captains/profile`, {
+            headers: {
+                Authorization: `Bearer ${token}` // Send token in request header
+            }
+        }).then(response => {
+            if(response.status === 200) {
+                setCaptain(response.data.captain); // Save captain data in context
+                setIsLoading(false); // Stop loading
+            }
+        })
+        .catch(err => {
+            console.log(err); // Log any error
+            localStorage.removeItem('token'); // Remove token if error occurs
+            setIsLoading(false); // Stop loading
+            navigate('/captain-login'); // Redirect to login page
+        });
+    }, [token, setCaptain, navigate]); // Only run when token, setCaptain, or navigate changes
 
-    axios.get(`${import.meta.env.VITE_BASE_URL}/captains/profile`, {
-        headers: {
-            Authorization: `Bearer ${token}` //sending the token in the header of the request to get captain profile
-        }
-    }).then(response => {
-        if(response.status === 200) {
-            setCaptain(response.data.captain); //setting the captain data in the context
-            setIsLoading(false); //setting loading state to false after getting captain profile
-        }
-    })
-    .catch(err => {
-        console.log(err);
-        localStorage.removeItem('token'); //removing the token from local storage if there is an error
-        navigate('/captain-login'); //if there is an error, navigate to login page
-    })
-
+    // Show loading message while fetching profile
     if(isLoading) {
         return (
             <div>Loading...</div>
         )
     }
 
-  return (
-    <div>
-      {children}
-    </div>
-  )
+    // Render child components if authenticated
+    return (
+        <div>
+            {children}
+        </div>
+    )
 }
 
 export default CaptainProtectedWrapper

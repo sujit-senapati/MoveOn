@@ -96,7 +96,7 @@ const UserSignup = () => {
 
       </div>
       <div>
-        <p className='text-[10px] leading-tight'>By proceeding, you consent to get email messages, including by automated means, from Uber and its affiliates to the email provided</p>
+        <p className='text-[10px] leading-tight text-center'>By proceeding, you consent to get email messages, including by automated means, from Uber and its affiliates to the email provided</p>
       </div>
 
     </div>

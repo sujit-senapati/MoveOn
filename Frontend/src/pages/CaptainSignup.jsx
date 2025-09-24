@@ -61,7 +61,7 @@ const CaptainSignup = () => {
   }
 
   return (
-    <div className='p-7 h-screen flex flex-col justify-between'>
+    <div className='px-7 py-1 h-screen flex flex-col justify-between'>
 
       <div>
         <img className='w-16 mb-3' src="https://pngimg.com/uploads/uber/uber_PNG24.png" alt="" />
@@ -71,7 +71,7 @@ const CaptainSignup = () => {
         }} action="">
 
           <h3 className='text-lg mb-2 font-medium'>What's your name?</h3>
-          <div className='flex gap-4 mb-6'>
+          <div className='flex gap-4 mb-3'>
             <input
               value={firstName}
               onChange={(e) => {
@@ -92,14 +92,14 @@ const CaptainSignup = () => {
             onChange={(e) => { //using use state to enter and update email on the webpage
               setEmail(e.target.value);
             }}
-            className='bg-[#eeeeee] mb-6 rounded px-4 py-2 w-full text-lg placeholder:text-base' required type="email" placeholder='email@example.com' />
+            className='bg-[#eeeeee] mb-3 rounded px-4 py-2 w-full text-lg placeholder:text-base' required type="email" placeholder='email@example.com' />
           <h3 className='text-lg mb-2 font-medium'>What'll be your password</h3>
           <input
             value={password}
             onChange={(e) => { //using use state to enter and update password on the webpage
               setPassword(e.target.value);
             }}
-            className='bg-[#eeeeee] mb-6 rounded px-4 py-2  w-full text-lg placeholder:text-base' required type="password" placeholder='password' />
+            className='bg-[#eeeeee] mb-5 rounded px-4 py-2  w-full text-lg placeholder:text-base' required type="password" placeholder='password' />
 
           <h3 className='text-lg mb-2 font-medium'>Vehicle information</h3>
           <div className='flex gap-4 mb-4'>
@@ -116,7 +116,7 @@ const CaptainSignup = () => {
               }}
               className='bg-[#eeeeee] w-1/2 rounded px-4 py-2 text-lg placeholder:text-base' required type="text" placeholder='license plate' />
           </div>
-          <div className='flex gap-4 mb-4'>
+          <div className='flex gap-4 mb-5'>
             <input
               value={vehicleCapacity}
               onChange={(e) => {
@@ -136,15 +136,16 @@ const CaptainSignup = () => {
               </select>
           </div>
 
-          <button className='bg-[#111] mb-6 rounded px-4 py-2 border w-full text-white font-semibold placeholder:text-base'>Create Capatin Account</button>
+          <button className='bg-[#111] mb-5 rounded px-4 py-2 border w-full text-white font-semibold placeholder:text-base'>Create Capatin Account</button>
           <div className='text-sm flex justify-center items-center flex-col'>
-            <p className='text-center'>Already have an account?</p><Link className='text-blue-600 p-0.5' to='/captain-login'>Login here</Link>
+            <p className='text-center'>Already have an account?</p>
+            <Link className='text-blue-600 p-0.5' to='/captain-login'>Login here</Link>
           </div>
         </form>
 
       </div>
       <div>
-        <p className='text-[10px] leading-tight'>By proceeding, you consent to get email messages, including by automated means, from Uber and its affiliates to the email provided</p>
+        <p className='text-[10px] leading-tight text-center mb-0.5'>By proceeding, you consent to get email messages, including by automated means, from Uber and its affiliates to the email provided</p>
       </div>
 
     </div>

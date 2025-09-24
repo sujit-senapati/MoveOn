@@ -11,7 +11,7 @@ const WaitingForDriver = (props) => {
                 <h5 className='p-0 text-center w-[93%] absolute top-0'>
                 </h5>
                 <h3 className='text-2xl font-semibold pb-3'>Ride booked</h3>
-                <h5 className='text-sm text-gray-600 pb-3 border-b-1 border-gray-200'>Please wait at the pickup location</h5>
+                <h5 className='text-sm text-gray-600 pb-3 border-b-1 border-gray-200'>Please wait for the driver to reach your location</h5>
 
                 <div className='flex justify-between items-center flex-col'>
                     <div className='flex gap-20 items-center justify-center mt-5 mb-2 border-b-1 border-gray-200 pb-3'>

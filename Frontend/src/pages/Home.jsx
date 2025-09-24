@@ -10,6 +10,7 @@ import VehiclePanel from '../components/VehiclePanel'
 import ConfirmRide from '../components/ConfirmRide'
 import LookingForDriver from '../components/LookingForDriver'
 import WaitingForDriver from '../components/WaitingForDriver'
+import { Link } from 'react-router-dom'
 
 
 
@@ -20,7 +21,7 @@ const Home = () => {
   const [vehiclePanel, setVehiclePanel] = useState(false)
   const [confirmRidePanel, setConfirmRidePanel] = useState(false)
   const [searchingDriverPanel, setSearchingDriverPanel] = useState(false)
-  const [waitingForDriverPanel, setWaitingForDriverPanel] = useState(true)
+  const [waitingForDriverPanel, setWaitingForDriverPanel] = useState(false)
 
 
   const panelRef = useRef(null)
@@ -29,6 +30,7 @@ const Home = () => {
   const confirmRidePanelRef = useRef(null)
   const searchingDriverPanelRef = useRef(null)
   const waitingForDriverPanelRef = useRef(null)
+  const logAndLogoutRef = useRef(null)
 
 
   const submitHander = (e) => {
@@ -51,6 +53,11 @@ const Home = () => {
         rotation: 180,
         transformOrigin: '50% 50%'
       })
+      gsap.to(logAndLogoutRef.current, {
+        display: 'none',
+        ease: 'power3.out',
+        duration: 0.25
+      })
     } else {
       gsap.to(panelRef.current, {
         height: '0%',
@@ -63,6 +70,11 @@ const Home = () => {
         duration: 0.5,
         rotation: 0,
         transformOrigin: '50% 50%'
+      })
+      gsap.to(logAndLogoutRef.current, {
+        display: 'flex',
+        ease: 'power3.out',
+        duration: 0.25
       })
     }
 
@@ -139,7 +151,12 @@ const Home = () => {
   return (
 
     <div className='h-screen relative overflow-hidden'>
-      <img className='w-16 absolute left-5 top-5' src={UberLogo} alt="" />
+      <div ref={logAndLogoutRef} className='fixed p-2 z-30 top-0 left-0 flex items-center justify-between w-screen'>
+        <img className='w-16 absolute left-5 top-5' src={UberLogo} alt="" />
+        <Link to="/user/logout" className='h-10 w-10 bg-white flex items-center justify-center fixed right-4 top-5 rounded-sm'>
+          <i className="ri-logout-box-r-line font-medium text-lg"></i>
+        </Link>
+      </div>
 
       <div className='h-screen w-screen'>
         {/* image for temporary use */}
