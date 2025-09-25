@@ -52,7 +52,7 @@ const Riding = () => {
                             </div>
                         </div>
                         <button onClick={() => {
-                        }} className='w-full mt-5 bg-black active:bg-gray-800 text-white font-semibold p-2 rounded-sm'>Make payment</button>
+                        }} className='w-full mt-5 bg-black active:bg-gray-800 text-white font-semibold p-2 rounded-sm active:scale-95'>Make payment</button>
                     </div>
                 </div>
             </div>

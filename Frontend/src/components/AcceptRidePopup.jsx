@@ -66,7 +66,7 @@ const AcceptRidePopup = (props) => {
                         <div className='w-full flex items-center justify-between'>
                             <button onClick={() => {
                             props.setAcceptRidePopupPanel(false);
-                        }} className='w-2/5 mt-5 bg-white border-1 border-gray-300 active:bg-gray-300 font-semibold p-2 rounded-sm'>Cancel</button>
+                        }} className='w-2/5 mt-5 bg-white border-1 border-gray-300 active:bg-gray-300 active:scale-95 font-semibold p-2 rounded-sm'>Cancel</button>
                         <Link to="/captain-riding" className='w-2/5 mt-5 text-center bg-black border-1 border-black active:bg-gray-800 text-white font-semibold p-2 rounded-sm'>Confirm</Link>
                         </div>
                     </form>

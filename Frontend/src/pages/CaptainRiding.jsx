@@ -46,7 +46,7 @@ const CaptainRiding = () => {
         <h4 className='text-xl text-center font-semibold '>2.1 KM away</h4>
         <button onClick={() => {
           setFinishRidePanel(true);
-        }} className=' w-full mt-5 bg-black active:bg-gray-800 text-white font-semibold p-2 rounded-sm'>Complete ride</button>
+        }} className=' w-full mt-5 bg-black active:bg-gray-800 text-white font-semibold p-2 rounded-sm active:scale-95'>Complete ride</button>
       </div>
 
       <div>

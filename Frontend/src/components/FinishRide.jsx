@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 
-const FinishRide = (props) => {
+const FinishRide = ({
+    setFinishRidePanel
+}) => {
 
     const [OTP, setOTP] = useState('')
 
@@ -14,7 +16,7 @@ const FinishRide = (props) => {
             <div className='flex items-center justify-between px-3 border-b-1 border-gray-200'>
                 <h3 className='text-2xl font-semibold mb-5' >Complete this ride</h3>
                 <h5 onClick={() => {
-                    props.setFinishRidePanel(false);
+                    setFinishRidePanel(false);
                 }} className='mb-3 font-bold text-xl'><i className="ri-close-large-line"></i></h5>
             </div>
 

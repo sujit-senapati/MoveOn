@@ -88,7 +88,7 @@ const UserSignup = () => {
               setPassword(e.target.value);
             }}
             className='bg-[#eeeeee] mb-6 rounded px-4 py-2  w-full text-lg placeholder:text-base' required type="password" placeholder='password' />
-          <button className='bg-[#111] mb-6 rounded px-4 py-2 border w-full text-white font-semibold placeholder:text-base'>Create Account</button>
+          <button className='bg-[#111] mb-6 rounded px-4 py-2 border w-full text-white font-semibold placeholder:text-base active:scale-95'>Create Account</button>
           <div className='text-sm flex justify-center items-center flex-col'>
             <p className='text-center'>Already have an account?</p><Link className='text-blue-600 p-0.5' to='/login'>Login here</Link>
           </div>

@@ -38,7 +38,7 @@ const LookingForDriver = (props) => {
                 </div>
                 <button onClick={() => {
                     props.setSearchingDriverPanel(false);
-                }} className='w-full mt-5 bg-black active:bg-gray-800 text-white font-semibold p-2 rounded-sm'>Cancel</button>
+                }} className='w-full mt-5 bg-black active:bg-gray-800 text-white font-semibold p-2 rounded-sm active:scale-95'>Cancel</button>
             </div>
         </div>
     )

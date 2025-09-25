@@ -136,7 +136,7 @@ const CaptainSignup = () => {
               </select>
           </div>
 
-          <button className='bg-[#111] mb-5 rounded px-4 py-2 border w-full text-white font-semibold placeholder:text-base'>Create Capatin Account</button>
+          <button className='bg-[#111] mb-5 rounded px-4 py-2 border w-full text-white font-semibold placeholder:text-base active:scale-95'>Create Capatin Account</button>
           <div className='text-sm flex justify-center items-center flex-col'>
             <p className='text-center'>Already have an account?</p>
             <Link className='text-blue-600 p-0.5' to='/captain-login'>Login here</Link>

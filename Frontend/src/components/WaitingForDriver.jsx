@@ -49,7 +49,7 @@ const WaitingForDriver = (props) => {
                     </div>
                     <button onClick={() => {
                         props.setWaitingForDriverPanel(false);
-                    }} className='w-full mt-5 bg-black active:bg-gray-800 text-white font-semibold p-2 rounded-sm'>Cancel ride</button>
+                    }} className='w-full mt-5 bg-black active:bg-gray-800 text-white font-semibold p-2 rounded-sm active:scale-95'>Cancel ride</button>
                 </div>
             </div>
         </div>

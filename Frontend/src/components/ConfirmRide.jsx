@@ -43,7 +43,7 @@ const ConfirmRide = (props) => {
                 <button onClick={() => {
                     props.setSearchingDriverPanel(true);
                     props.setConfirmRidePanel(false);
-                }} className='w-full mt-5 bg-black active:bg-gray-800 text-white font-semibold p-2 rounded-sm'>Confirm</button>
+                }} className='w-full mt-5 bg-black active:bg-gray-800 text-white font-semibold p-2 rounded-sm active:scale-95'>Confirm</button>
             </div>
         </div>
     )
