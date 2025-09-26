@@ -24,13 +24,13 @@ const LocationSearchPanel = ({
     }, [query]);
 
     //sample array of locations
-    const locations = [
-        "24B, Near Bustand, Daspur, West Bengal",
-        "56A, Near Mall, Kolkata, West Bengal",
-        "12C, Near Park Street, Kolkata, West Bengal",
-        "78D, Near Airport, Kolkata, West Bengal",
-        "90E, Near Station, Howrah, West Bengal"
-    ]
+    // const locations = [
+    //     "24B, Near Bustand, Daspur, West Bengal",
+    //     "56A, Near Mall, Kolkata, West Bengal",
+    //     "12C, Near Park Street, Kolkata, West Bengal",
+    //     "78D, Near Airport, Kolkata, West Bengal",
+    //     "90E, Near Station, Howrah, West Bengal"
+    // ]
 
     //function to handle the searching on the panel
     const handleSearch = async (q) => {

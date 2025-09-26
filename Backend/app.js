@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser'); // Middleware for parsing cookies
 const connectToDb = require('./db/db'); // Database connection
 const userRoutes = require('./routes/user.routes'); // User-related routes
 const captainRoutes = require('./routes/captain.routes'); //captain-related routes
+const findRoute = require('./routes/find.route'); // route for finding routes in the map for the rides
 
 connectToDb(); // Connect to the database
 
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 
 app.use('/users', userRoutes); //user-related routes
 app.use('/captains', captainRoutes); //captain-related routes
+app.use('/ride', findRoute); //ride route finding route
 
 
 module.exports = app;

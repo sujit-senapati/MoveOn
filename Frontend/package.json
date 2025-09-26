@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@mapbox/polyline": "^1.2.1",
     "@tailwindcss/vite": "^4.1.4",
     "autoprefixer": "^10.4.21",
     "axios": "^1.9.0",

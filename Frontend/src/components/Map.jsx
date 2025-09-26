@@ -1,6 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMapEvents, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMapEvents, useMap, Polyline } from 'react-leaflet';
 import FitBounds from '../components/FitBounds'
+import RideMap from './RideMap';
+
+
+import pickupImg from '../assets/icons/pickup.png';  // relative to Map.jsx
+import destinationImg from '../assets/icons/destination.png';  // relative to Map.jsx
+
+const pickupIcon = new L.Icon({
+  iconUrl: pickupImg,
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+  popupAnchor: [0, -40],
+});
+
+const destinationIcon = new L.Icon({
+    iconUrl: destinationImg,
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -40],
+});
+
 
 const Map = ({
     pickupLocation,
@@ -10,6 +30,10 @@ const Map = ({
 
     const [currentPosition, setCurrentPosition] = useState([22.5726, 88.3639]); // default fallback (Kolkata)
     const [locationLoaded, setLocationLoaded] = useState(false);
+    const [route, setRoute] = useState([])  //polyline coordinates
+
+
+
 
     useEffect(() => {
         // Get user's current location
@@ -49,12 +73,12 @@ const Map = ({
                 attribution="&copy; OpenStreetMap contributors"
             />
             {pickupLocation && (
-                <Marker position={pickupLocation}>
+                <Marker position={pickupLocation} icon={pickupIcon}>
                     <Popup>Pickup</Popup>
                 </Marker>
             )}
             {destinationLocation && (
-                <Marker position={destinationLocation}>
+                <Marker position={destinationLocation} icon={destinationIcon}>
                     <Popup>Desination</Popup>
                 </Marker>
             )}
@@ -62,6 +86,15 @@ const Map = ({
                 pickupLocation={pickupLocation}
                 destinationLocation={destinationLocation}
                 trigger={vehiclePanel}
+            />
+
+            {/* drawing the route */}
+            {route.length > 0 && <Polyline positions={route} color='black' />}
+
+            <RideMap
+                pickupLocation={pickupLocation}
+                destinationLocation={destinationLocation}
+                onRouteFetched={setRoute}  //save polyline coordinates
             />
         </MapContainer>
     );
