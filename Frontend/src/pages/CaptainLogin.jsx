@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; 
+import axios from 'axios';
 import { CaptainDataContext } from '../context/CaptainContext';
+import { useRef } from 'react';
 
 const CaptainLogin = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const {captain, setCaptain} = React.useContext(CaptainDataContext); //using context to get and set captain data
+  const errorMessageRef = useRef(null);
+
+  const { captain, setCaptain } = React.useContext(CaptainDataContext); //using context to get and set captain data
   const navigate = useNavigate(); //using useNavigate hook to navigate to different pages
 
   const submitHandler = async (e) => {
@@ -21,14 +24,27 @@ const CaptainLogin = () => {
       password: password
     }
 
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, captain); //making a post request to the backend to login the captain
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, captain); //making a post request to the backend to login the captain
 
-    if(response.status === 200) {
-      const data = response.data; //getting the data from the response
+      if (response.status === 200) {
+        const data = response.data; //getting the data from the response
 
-      setCaptain(data.captain); //setting the captain data in the context
-      localStorage.setItem('token', data.token); //storing the token in the local storage
-      navigate('/captain-home'); //navigating to the captain home page after successful login
+        setCaptain(data.captain); //setting the captain data in the context
+        localStorage.setItem('token', data.token); //storing the token in the local storage
+        navigate('/captain-home'); //navigating to the captain home page after successful login
+      }
+    } catch(err) {
+      if(errorMessageRef) {
+        if(err.response?.status === 401) {
+          errorMessageRef.current.useContext = 'Invalid email or password!';
+          errorMessageRef.current.style.color = 'red';
+
+          return;
+        } else {
+          errorMessageRef.current.style.color = 'white'; //make it invisible
+        }
+      }
     }
 
     //set email and password to empty string after form submission
@@ -48,14 +64,14 @@ const CaptainLogin = () => {
           submitHandler(e); //calling the submit handler function on form submission
         }} action="">
           <h3 className='text-lg mb-2 font-medium'>Enter your email?</h3>
-          <input 
+          <input
             value={email}
             onChange={(e) => { //using use state to enter and update email on the webpage
               setEmail(e.target.value);
             }}
             className='bg-[#eeeeee] mb-7 rounded px-4 py-2 w-full text-lg placeholder:text-base' required type="email" placeholder='email@example.com' />
           <h3 className='text-lg mb-2 font-medium'>Enter your password</h3>
-          <input 
+          <input
             value={password}
             onChange={(e) => { //using use state to enter and update password on the webpage
               setPassword(e.target.value);
@@ -63,14 +79,16 @@ const CaptainLogin = () => {
             className='bg-[#eeeeee] mb-7 rounded px-4 py-2  w-full text-lg placeholder:text-base' required type="password" placeholder='password' />
           <button className='bg-[#111] mb-7 rounded px-4 py-2 border w-full text-white font-semibold placeholder:text-base active:scale-95'>Login</button>
           <div className='text-sm flex justify-center items-center flex-col'>
-          <p className='text-center'>Don't have an account?</p><Link className='text-blue-600 p-0.5' to='/captain-signup'>Register as a Captain</Link>
+            <p ref={errorMessageRef} className='text-white -mt-2'>Please check you email and password</p>
+            <p className='text-center'>Don't have an account?</p>
+            <Link className='text-blue-600 p-0.5' to='/captain-signup'>Register as a Captain</Link>
           </div>
         </form>
 
       </div>
       <div>
-        <Link 
-          to='/login' 
+        <Link
+          to='/login'
           className='bg-[#d5622d] mb-5 flex items-center justify-center rounded px-4 py-2 border w-full text-white font-semibold placeholder:text-base'>
           Sign in as User
         </Link>

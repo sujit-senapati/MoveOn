@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { userDataContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
@@ -8,34 +8,59 @@ const UserLogin = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userdata, setUserdata] = useState({});
+
+  const errorMessageRef = useRef(null);
 
 
   const { user, setUser } = useContext(userDataContext) //using user context to get user data
   const navigate = useNavigate(); //using useNavigate hook to navigate to different pages
 
   const submitHandler = async (e) => {
-    e.preventDefault(); //prevent default behavior of form submission where page gets reloaded
+    e.preventDefault();
 
-    //setting userdata to the email and password entered by the user
-    const userData = ({
-      email: email,
-      password: password
-    })
+    const userData = { email, password };
 
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData) //sending the data to the server using axios
-    if(response.status === 200) {
-      const data = response.data; //getting the data from the response
-      setUser(data.user); //setting the user data to the user context
-      localStorage.setItem('token', data.token); //setting the token to the local storage
-      navigate('/home'); //navigating to the home page after successful login
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/users/login`,
+        userData
+      );
+
+      // Success
+      if (errorMessageRef.current) {
+        errorMessageRef.current.textContent = "";
+        errorMessageRef.current.style.color = "white";
+      }
+
+      const data = response.data;
+      setUser(data.user);
+      localStorage.setItem("token", data.token);
+      navigate("/home");
+
+      //clear the input fields after successful attempt
+      setEmail("");
+      setPassword("");
+    } catch (err) {
+      console.log("Login error:", err.response?.status, err.response?.data);
+
+      //showing error message when login fails
+      if (errorMessageRef.current) {
+        if (err.response?.status === 401) {
+          errorMessageRef.current.textContent = "Wrong email or password";
+          errorMessageRef.current.style.color = "red";
+        } else if (err.response?.status === 400) {
+          errorMessageRef.current.textContent =
+            "Invalid email or password format";
+          errorMessageRef.current.style.color = "red";
+        } else {
+          errorMessageRef.current.textContent =
+            "Something went wrong. Try again!";
+          errorMessageRef.current.style.color = "red";
+        }
+      }
     }
+  };
 
-    //set email and password to empty string after form submission
-    setEmail('');
-    setPassword('');
-
-  }
 
   return (
     <div className='p-7 h-screen flex flex-col justify-between'>
@@ -62,6 +87,7 @@ const UserLogin = () => {
             className='bg-[#eeeeee] mb-7 rounded px-4 py-2  w-full text-lg placeholder:text-base' required type="password" placeholder='password' />
           <button className='bg-[#111] mb-7 rounded px-4 py-2 border w-full text-white font-semibold placeholder:text-base active:scale-95'>Login</button>
           <div className='text-sm flex justify-center items-center flex-col'>
+            <p ref={errorMessageRef} className='text-white -mt-2'>Wrong email or password, please try again</p>
             <p className='text-center'>Don't have an account?</p><Link className='text-blue-600 p-0.5' to='/signup'>Sign up</Link>
           </div>
         </form>

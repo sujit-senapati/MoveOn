@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Link } from 'react-router-dom' // importing link from react router dom for routing
 import { CaptainDataContext } from '../context/CaptainContext' // importing captain data context to provide captain data to all components
 import axios from 'axios'
@@ -10,6 +10,7 @@ const CaptainSignup = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [vehicleColor, setVehicleColor] = useState('');
@@ -17,10 +18,42 @@ const CaptainSignup = () => {
   const [vehicleCapacity, setVehicleCapacity] = useState('');
   const [vehicleType, setVehicleType] = useState('');
 
+  const errorMessageRef = useRef(null);
+
   const { captain, setCaptain } = React.useContext(CaptainDataContext) //using user context to get user data
+
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; //for strong passwords
 
   const submitHandler = async (e) => {
     e.preventDefault(); //prevent default behavior of form submission where page gets reloaded
+
+    //check if the password and confirm password fields match
+    if (password != confirmPassword) {
+      if (errorMessageRef) {
+        errorMessageRef.current.textContent = 'Passwords do not match!';
+        errorMessageRef.current.style.color = 'red';
+      }
+
+      return; //stop signup attempt
+    } else {
+      if (errorMessageRef) {
+        errorMessageRef.current.style.color = 'white'; //make error message invisible
+      }
+    }
+
+    //check if the password is strong
+    if (!passwordRegex.test(password)) {
+      if (errorMessageRef) {
+        errorMessageRef.current.textContent = 'Password must be at least 8 characters long and include letters, numbers, and special characters.';
+        errorMessageRef.current.style.color = 'red';
+      }
+
+      return; //do not sign up the user
+    } else {
+      if (errorMessageRef) {
+        errorMessageRef.current.style.color = 'white'; //make error message invisible
+      }
+    }
 
     //setting userdata to the email and password entered by the user
     const captainData = ({
@@ -38,13 +71,29 @@ const CaptainSignup = () => {
       }
     })
 
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData) //sending the data to the server using axios
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData) //sending the data to the server using axios
 
-    if(response.status === 201) {
-      const data = response.data; //getting the data from the response
-      setCaptain(data.captain); //setting the captain data to the captain context
-      localStorage.setItem('token', data.token); //setting the token to the local storage
-      navigate('/captain-home'); //navigating to the home page after successful login
+      if (response.status === 201) {
+        const data = response.data; //getting the data from the response
+        setCaptain(data.captain); //setting the captain data to the captain context
+        localStorage.setItem('token', data.token); //setting the token to the local storage
+        navigate('/captain-home'); //navigating to the home page after successful login
+      }
+    } catch (err) {
+      if (errorMessageRef) {
+        if (err.response?.status === 400) {
+          errorMessageRef.current.textContent = 'Invalid format! Please try again.';
+          errorMessageRef.current.style.color = 'red';
+
+          return;
+        } else if (err.response?.status === 409) {
+          errorMessageRef.current.textContent = 'Another captain with the same email Id already exists, please try a differe email.';
+          errorMessageRef.current.style.color = 'red';
+
+          return;
+        }
+      }
     }
 
 
@@ -53,11 +102,11 @@ const CaptainSignup = () => {
     setLastName('');
     setEmail('');
     setPassword('');
+    setConfirmPassword('');
     setVehicleColor('');
     setVehiclePlate('');
     setVehicleCapacity('');
     setVehicleType('');
-
   }
 
   return (
@@ -100,6 +149,13 @@ const CaptainSignup = () => {
               setPassword(e.target.value);
             }}
             className='bg-[#eeeeee] mb-5 rounded px-4 py-2  w-full text-lg placeholder:text-base' required type="password" placeholder='password' />
+          <h3 className='text-lg mb-2 font-medium'>Confirm password</h3>
+          <input
+            value={confirmPassword}
+            onChange={(e) => { //using use state to enter and update password on the webpage
+              setConfirmPassword(e.target.value);
+            }}
+            className='bg-[#eeeeee] mb-5 rounded px-4 py-2  w-full text-lg placeholder:text-base' required type="password" placeholder='password' />
 
           <h3 className='text-lg mb-2 font-medium'>Vehicle information</h3>
           <div className='flex gap-4 mb-4'>
@@ -129,15 +185,16 @@ const CaptainSignup = () => {
                 setVehicleType(e.target.value); //using use state to enter and update first name on the webpage
               }}
               className='bg-[#eeeeee] w-1/2 rounded px-4 py-2 text-lg placeholder:text-base' required placeholder='type' >
-                <option value="" disabled>select vehicle type</option>
-                <option value="car">Car</option>
-                <option value="bike">Bike</option>
-                <option value="auto">Auto</option>
-              </select>
+              <option value="" disabled>select vehicle type</option>
+              <option value="car">Car</option>
+              <option value="bike">Bike</option>
+              <option value="auto">Auto</option>
+            </select>
           </div>
 
           <button className='bg-[#111] mb-5 rounded px-4 py-2 border w-full text-white font-semibold placeholder:text-base active:scale-95'>Create Capatin Account</button>
           <div className='text-sm flex justify-center items-center flex-col'>
+            <p ref={errorMessageRef} className=' -mt-2'></p>
             <p className='text-center'>Already have an account?</p>
             <Link className='text-blue-600 p-0.5' to='/captain-login'>Login here</Link>
           </div>
