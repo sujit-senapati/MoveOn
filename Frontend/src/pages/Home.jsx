@@ -4,7 +4,7 @@ import gsap from 'gsap'
 import 'remixicon/fonts/remixicon.css'
 import { Link } from 'react-router-dom'
 
-import UberLogo from '../assets/logos/Uber-Logo.png'
+import MoveOnLogo from '../assets/logos/MoveOnLogo.png'
 
 import LocationSearchPanel from '../components/LocationSearchPanel'
 import VehiclePanel from '../components/VehiclePanel'
@@ -50,7 +50,7 @@ const Home = () => {
   useGSAP(function () {
     if (panelOpen) {
       gsap.to(panelRef.current, {
-        height: '70%',
+        height: '60%',
         ease: 'power3.out',
         duration: 0.5,
         zIndex: 50
@@ -170,23 +170,26 @@ const Home = () => {
 
     <div className='h-screen relative overflow-hidden'>
       <div ref={logAndLogoutRef} className='fixed p-2 z-40 top-0 left-0 flex items-center justify-between w-screen'>
-        <img className='w-16 absolute left-5 top-5' src={UberLogo} alt="" />
+        <img className='w-28 absolute left-2 top-1' src={MoveOnLogo} alt="" />
         <Link to="/user/logout" className='h-10 w-10 bg-white flex items-center justify-center fixed right-4 top-5 rounded-sm'>
           <i className="ri-logout-box-r-line font-medium text-lg"></i>
         </Link>
       </div>
 
-      <div className='h-3/4 w-screen fixed z-30'>
+      <div className='h-screen w-screen fixed z-10'>
         {/* Maps component for live map view */}
         <Map
           pickupLocation={pickupLocation}
           destinationLocation={destinationLocation}
-          vehiclePanel={vehiclePanel}/>
+          vehiclePanel={vehiclePanel} />
       </div>
 
       {/* location search panel */}
-      <div ref={locationPanelRef} className='flex flex-col justify-end h-screen absolute top-0 w-full mt-4 z-20'>
-        <div className='h-[30%] p-6 bg-white relative'>
+      <div
+        ref={locationPanelRef}
+        className='flex flex-col justify-end h-screen absolute top-0 w-full z-20 pointer-events-none'
+      >
+        <div className='pointer-events-auto px-6 pt-8 pb-8 bg-white relative rounded-t-3xl shadow-2xl'>
           <h5
             ref={arrowRef}
             onClick={() => {
@@ -195,7 +198,7 @@ const Home = () => {
             className='absolute top-8 right-6.5 text-2xl'>
             <i className="ri-arrow-up-wide-line"></i>
           </h5>
-          <h4 className='text-3xl font-semibold'>Find a trip</h4>
+          <h4 className='text-3xl font-bold tracking-tight'>Find a trip</h4>
           <form onSubmit={(e) => {
             submitHander(e);
           }}>
@@ -209,7 +212,7 @@ const Home = () => {
               onChange={(e) => {
                 setPickup(e.target.value);
               }}
-              className='bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-5 text-center'
+              className='bg-zinc-100 px-5 py-4 text-base rounded-2xl w-full mt-6'
               type="text"
               placeholder='Add a pickup location'
             />
@@ -222,13 +225,16 @@ const Home = () => {
               onChange={(e) => {
                 setDestination(e.target.value);
               }}
-              className='bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-3 text-center'
+              className='bg-zinc-100 px-5 py-4 text-base rounded-2xl w-full mt-4'
               type="text"
               placeholder='Enter your destination'
             />
           </form>
         </div>
-        <div ref={panelRef} className='h-0 bg-white'>
+        <div
+          ref={panelRef}
+          className='h-0 bg-white pointer-events-auto overflow-hidden -mt-1'
+        >
           <LocationSearchPanel
             setPanelOpen={setPanelOpen}
             setVehiclePanel={setVehiclePanel}

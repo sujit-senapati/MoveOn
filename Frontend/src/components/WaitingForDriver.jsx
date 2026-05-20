@@ -1,8 +1,8 @@
 import React from 'react'
 
-import UberCar from '../assets/models/UberCar.png'
-import UberMoto from '../assets/models/UberMoto.webp'
-import UberAuto from '../assets/models/UberAuto.webp'
+import MoveOnCar from '../assets/models/MoveOnCar.png'
+import MoveOnMoto from '../assets/models/MoveOnMoto.webp'
+import MoveOnAuto from '../assets/models/MoveOnAuto.webp'
 
 const WaitingForDriver = (props) => {
     return (

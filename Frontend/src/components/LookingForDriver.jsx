@@ -1,8 +1,8 @@
 import React from 'react'
 
-import UberCar from '../assets/models/UberCar.png'
-import UberMoto from '../assets/models/UberMoto.webp'
-import UberAuto from '../assets/models/UberAuto.webp'
+import MoveOnCar from '../assets/models/MoveOnCar.png'
+import UberMoto from '../assets/models/MoveOnMoto.webp'
+import UberAuto from '../assets/models/MoveOnAuto.webp'
 
 const LookingForDriver = (props) => {
     return (
@@ -12,7 +12,7 @@ const LookingForDriver = (props) => {
             <h3 className='text-2xl font-semibold pb-3 border-b-1 border-gray-200'>Looking for a driver...</h3>
 
             <div className='flex justify-between items-center flex-col'>
-                <img className='h-25 m-5' src={UberCar} alt="" />
+                <img className='h-25 m-5' src={MoveOnCar} alt="" />
                 <div className='w-full flex flex-col gap-4 mt-5 mb-5'>
                     <div className='flex items-center gap-5 p-1 border-b-1 border-gray-200'>
                         <i className='ri-map-pin-3-fill text-xl'></i>

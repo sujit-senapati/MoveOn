@@ -4,6 +4,8 @@ import { CaptainDataContext } from '../context/CaptainContext' // importing capt
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom' // importing useNavigate from react router dom for routing
 
+import MoveOnLogo from '../assets/logos/MoveOnLogo.png' // importing the logo of the app
+
 const CaptainSignup = () => {
 
   const navigate = useNavigate(); //using useNavigate hook to navigate to different pages
@@ -110,10 +112,10 @@ const CaptainSignup = () => {
   }
 
   return (
-    <div className='px-7 py-1 h-screen flex flex-col justify-between'>
+    <div className='min-h-screen bg-slate-800 flex justify-center px-4 py-8'>
 
-      <div>
-        <img className='w-16 mb-3' src="https://pngimg.com/uploads/uber/uber_PNG24.png" alt="" />
+      <div className='w-full max-w-md bg-zinc-100 rounded-3xl shadow-xl p-8'>
+        <img className='w-32 -mt-5 -ml-7' src={MoveOnLogo} alt="" />
 
         <form onSubmit={(e) => {
           submitHandler(e); //calling the submit handler function on form submission
@@ -200,9 +202,9 @@ const CaptainSignup = () => {
           </div>
         </form>
 
-      </div>
-      <div>
-        <p className='text-[10px] leading-tight text-center mb-0.5'>By proceeding, you consent to get email messages, including by automated means, from Uber and its affiliates to the email provided</p>
+        <div>
+          <p className='text-[10px] leading-tight text-center mb-0.5'>By proceeding, you consent to get email messages, including by automated means, from Uber and its affiliates to the email provided</p>
+        </div>
       </div>
 
     </div>

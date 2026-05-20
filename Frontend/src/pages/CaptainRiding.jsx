@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 
-import UberLogo from '../assets/logos/Uber-Logo-Icon.png'
+import MoveOnLogo from '../assets/logos/MoveOnLogo.png'
 import FinishRide from '../components/FinishRide'
 
 
@@ -34,7 +34,7 @@ const CaptainRiding = () => {
   return (
     <div className='h-screen'>
       <div className='fixed p-2 top-0 left-0 flex items-center justify-between w-screen'>
-        <img className='h-16 w-16 p-2' src={UberLogo} alt="" />
+        <img className='h-16 w-16 p-2' src={MoveOnLogo} alt="" />
 
       </div>
 

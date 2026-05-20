@@ -8,10 +8,10 @@ import pickupImg from '../assets/icons/pickup.png';  // relative to Map.jsx
 import destinationImg from '../assets/icons/destination.png';  // relative to Map.jsx
 
 const pickupIcon = new L.Icon({
-  iconUrl: pickupImg,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-  popupAnchor: [0, -40],
+    iconUrl: pickupImg,
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -40],
 });
 
 const destinationIcon = new L.Icon({
@@ -89,7 +89,19 @@ const Map = ({
             />
 
             {/* drawing the route */}
-            {route.length > 0 && <Polyline positions={route} color='black' />}
+            console.log(route);
+            {route.length > 0 && (
+                <Polyline
+                    positions={route}
+                    pathOptions={{
+                        color: '#111827',
+                        weight: 6,
+                        opacity: 0.9,
+                        lineCap: 'round',
+                        lineJoin: 'round',
+                    }}
+                />
+            )}
 
             <RideMap
                 pickupLocation={pickupLocation}

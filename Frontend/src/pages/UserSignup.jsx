@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import UserContext, { userDataContext } from '../context/UserContext'
 
+import MoveOnLogo from '../assets/logos/MoveOnLogo.png'
+
 
 const UserSignup = () => {
   const [email, setEmail] = useState('');
@@ -97,10 +99,10 @@ const UserSignup = () => {
 
 
   return (
-    <div className='p-7 h-screen flex flex-col justify-between'>
+    <div className='min-h-screen bg-slate-800 flex justify-center px-4 py-8'>
 
-      <div>
-        <img className='w-16 mb-10' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
+      <div className='w-full max-w-md bg-zinc-100 rounded-3xl shadow-xl p-8'>
+        <img className='w-32 -mt-5 -ml-7' src={MoveOnLogo} alt="" />
 
         <form onSubmit={(e) => {
           submitHandler(e); //calling the submit handler function on form submission
@@ -150,9 +152,9 @@ const UserSignup = () => {
           </div>
         </form>
 
-      </div>
-      <div>
-        <p className='text-[10px] leading-tight text-center'>By proceeding, you consent to get email messages, including by automated means, from Uber and its affiliates to the email provided</p>
+        <div>
+          <p className='text-[10px] leading-tight text-center'>By proceeding, you consent to get email messages, including by automated means, from MoveOn to the email provided</p>
+        </div>
       </div>
 
     </div>

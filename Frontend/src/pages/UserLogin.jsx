@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { userDataContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import MoveOnLogo from '../assets/logos/MoveOnLogo.png'
 
 const UserLogin = () => {
 
@@ -63,12 +64,12 @@ const UserLogin = () => {
 
 
   return (
-    <div className='p-7 h-screen flex flex-col justify-between'>
+    <div className='min-h-screen bg-slate-800 flex justify-center px-4 py-8'>
 
-      <div>
-        <img className='w-16 mb-10' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
+      <div className='w-full max-w-md bg-zinc-100 rounded-3xl shadow-xl p-8'>
+        <img className='w-32 -mt-5 -ml-7' src={MoveOnLogo} alt="" />
 
-        <form onSubmit={(e) => {
+        <form className='flex flex-col gap-5' onSubmit={(e) => {
           submitHandler(e); //calling the submit handler function on form submission
         }} action="">
           <h3 className='text-lg mb-2 font-medium'>Enter your email?</h3>
@@ -77,28 +78,28 @@ const UserLogin = () => {
             onChange={(e) => { //using use state to enter and update email on the webpage
               setEmail(e.target.value);
             }}
-            className='bg-[#eeeeee] mb-7 rounded px-4 py-2 w-full text-lg placeholder:text-base' required type="email" placeholder='email@example.com' />
+            className='bg-[#eeeeee] rounded px-4 py-2 w-full text-lg placeholder:text-base' required type="email" placeholder='email@example.com' />
           <h3 className='text-lg mb-2 font-medium'>Enter your password</h3>
           <input
             value={password}
             onChange={(e) => { //using use state to enter and update password on the webpage
               setPassword(e.target.value);
             }}
-            className='bg-[#eeeeee] mb-7 rounded px-4 py-2  w-full text-lg placeholder:text-base' required type="password" placeholder='password' />
-          <button className='bg-[#111] mb-7 rounded px-4 py-2 border w-full text-white font-semibold placeholder:text-base active:scale-95'>Login</button>
+            className='bg-[#eeeeee] rounded px-4 py-2  w-full text-lg placeholder:text-base' required type="password" placeholder='password' />
+          <button className='bg-[#111] rounded px-4 py-2 border w-full text-white font-semibold placeholder:text-base active:scale-95'>Login</button>
           <div className='text-sm flex justify-center items-center flex-col'>
-            <p ref={errorMessageRef} className='text-white -mt-2'>Wrong email or password, please try again</p>
+            <p ref={errorMessageRef} className='text-white -mt-2'></p>
             <p className='text-center'>Don't have an account?</p><Link className='text-blue-600 p-0.5' to='/signup'>Sign up</Link>
           </div>
         </form>
 
-      </div>
-      <div>
         <Link
           to='/captain-login'
           className='bg-[#10b461] mb-5 flex items-center justify-center rounded px-4 py-2 border w-full text-white font-semibold placeholder:text-base'>
           Sign in as Captain
         </Link>
+      </div>
+      <div>
       </div>
 
     </div>
