@@ -11,11 +11,22 @@ const findRoute = require('./routes/find.route'); // route for finding routes in
 
 connectToDb(); // Connect to the database
 
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://move-on-nine.vercel.app"
+];
 
 app.use(cors({
-    origin: "https://move-on-nine.vercel.app", // Allow requests from this origin
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     credentials: true
-})); // Enable CORS for all routes
+}));
+
 app.use(express.json()); // Parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
 app.use(cookieParser()); // Parse cookies from request headers
