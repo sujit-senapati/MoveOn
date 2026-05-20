@@ -12,7 +12,10 @@ const findRoute = require('./routes/find.route'); // route for finding routes in
 connectToDb(); // Connect to the database
 
 
-app.use(cors()); // Enable CORS for all routes
+app.use(cors({
+    origin: "https://move-on-nine.vercel.app", // Allow requests from this origin
+    credentials: true
+})); // Enable CORS for all routes
 app.use(express.json()); // Parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
 app.use(cookieParser()); // Parse cookies from request headers
