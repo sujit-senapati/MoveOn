@@ -37,6 +37,17 @@ app.get('/', (req, res) => {
     res.send('Hello World');
 })
 
+// ==========================================
+// 🟢 PUBLIC HEALTH CHECK ENDPOINT FOR CRON JOB
+// ==========================================
+app.get('/api/heartbeat', (req, res) => {
+    res.status(200).json({
+        success: true,
+        status: "healthy",
+        timestamp: new Date().toISOString()
+    });
+});
+
 app.use('/users', userRoutes); //user-related routes
 app.use('/captains', captainRoutes); //captain-related routes
 app.use('/ride', findRoute); //ride route finding route
